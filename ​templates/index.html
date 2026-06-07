@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مساعدك الذكي - أبو زايد آل نهيان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body{background:#000;color:#fff;}</style>
+</head>
+<body class="p-6">
+    <h1 class="text-2xl font-bold mb-4 text-blue-500">مساعدك الذكي</h1>
+    <select id="mode" class="bg-gray-800 p-2 rounded mb-4 w-full">
+        <option value="general">ذكاء عام</option>
+        <option value="coder">خبير برمجة</option>
+    </select>
+    <input id="msg" class="w-full p-3 bg-gray-900 border border-gray-700 rounded text-white" placeholder="اسألني أي شيء...">
+    <button onclick="send()" class="mt-4 bg-blue-600 px-6 py-2 rounded w-full">إرسال</button>
+    <div id="reply" class="mt-6 p-4 border border-gray-800 rounded min-h-[100px]">الجواب سيظهر هنا...</div>
+    
+    <footer class="text-center mt-10 text-gray-500 border-t border-gray-800 pt-4">
+        <p>تطوير: أبو زايد آل نهيان</p>
+    </footer>
+
+    <script>
+        async function send() {
+            const msg = document.getElementById('msg').value;
+            const mode = document.getElementById('mode').value;
+            const res = await fetch('/ask', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: msg, mode: mode})
+            });
+            const data = await res.json();
+            document.getElementById('reply').innerText = data.reply;
+        }
+    </script>
+</body>
+</html>
